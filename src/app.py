@@ -1,4 +1,6 @@
 # 1. Library imports
+import math
+
 import uvicorn
 from fastapi import FastAPI
 
@@ -17,6 +19,17 @@ def index():
 @app.get('/{name}')
 def get_name(name: str):
     return {'message': f'Hello, {name}'}
+
+
+# 5. Route for model prediction, make a prediction from the passed
+#    JSON data and return the predicted flower species with the confidence
+@app.post('/predict')
+def predict(x1: float, x2: float):
+    prediction, probability = (x1 > 3), math.cos(x1 + x2)
+    return {
+        'prediction': prediction,
+        'probability': probability
+    }
 
 
 # 5. Run the API with uvicorn
